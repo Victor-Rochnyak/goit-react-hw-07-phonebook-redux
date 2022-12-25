@@ -1,14 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchContacts } from './operations';
+import { fetchContacts, addContacts, deleteContacts } from './operations';
 
-// const handlePending = state => {
-//   state.isLoading = true;
-// };
+const handlePending = state => {
+  state.isLoading = true;
+};
 
-// const handleRejected = (state, action) => {
-//   state.isLoading = false;
-//   state.error = action.payload;
-// };
+const handleRejected = (state, action) => {
+  state.isLoading = false;
+  state.error = action.payload;
+};
 
 const contactSlice = createSlice({
   name: 'contacts',
@@ -18,47 +18,32 @@ const contactSlice = createSlice({
     error: null,
   },
   extraReducers: {
-    [fetchContacts.pending]: state => {
-      state.isLoading = true;
-    },
+    [fetchContacts.pending]: handlePending,
+    [addContacts.pending]: handlePending,
+    [deleteContacts.pending]: handlePending,
+
     [fetchContacts.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.error = null;
       state.contactItems = action.payload;
     },
-    [fetchContacts.rejected]: (state, action) => {
+    [addContacts.fulfilled](state, action) {
       state.isLoading = false;
-      state.error = action.payload;
+      state.error = null;
+      state.contactItems.unshift(action.payload);
+    },
+    [deleteContacts.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+      const index = state.contactItems.findIndex(
+        contact => contact.id === action.payload.id
+      );
+      state.contactItems.splice(index, 1);
     },
 
-    // [addContacts.pending](state) {
-    //   state.isLoading = true;
-    // },
-    // [addContacts.fulfilled](state, action) {
-    //   state.isLoading = false;
-    //   state.error = null;
-    //   state.contactItems.unshift(action.payload);
-    // },
-    // [addContacts.rejected](state, action) {
-    //   state.isLoading = false;
-    //   state.error = action.payload;
-    // },
-    
-    // [deleteContacts.pending](state) {
-    //   state.isLoading = true;
-    // },
-    // [deleteContacts.fulfilled](state, action) {
-    //   state.isLoading = false;
-    //   state.error = null;
-    //   const index = state.contactItems.findIndex(
-    //     contact => contact.id === action.payload.id
-    //   );
-    //   state.contactItems.splice(index, 1);
-    // },
-    // [deleteContacts.rejected](state, action) {
-    //   state.isLoading = false;
-    //   state.error = action.payload;
-    // },
+    [fetchContacts.rejected]: handleRejected,
+    [addContacts.rejected]: handleRejected,
+    [deleteContacts.rejected]: handleRejected,
   },
 });
 
