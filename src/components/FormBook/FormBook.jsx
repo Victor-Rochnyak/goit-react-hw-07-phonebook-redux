@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 import { Form, Label, Input, Button } from './FormBok.styled';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { addContacts, getContacts } from 'redux/contactSlise';
+
+import { addContacts } from 'redux/operations';
+import { getContacts } from 'redux/selectors';
 
 export default function FormBook() {
   const [name, setName] = useState('');
@@ -34,7 +36,7 @@ export default function FormBook() {
         return;
     }
   };
- 
+
   const handleSubmit = event => {
     event.preventDefault();
     const newContact = {

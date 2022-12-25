@@ -1,14 +1,14 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { filterContact, getFilter } from 'redux/filterSlise';
-
+import { filterContact } from 'redux/filterSlise';
+import { getFilter } from 'redux/selectors';
 // Стилі
 import { Label, Input } from './FilterContacts.styled';
 
 const FilterContacts = () => {
   const dispatch = useDispatch();
   const filter = useSelector(getFilter);
-  
+
   const onChange = event => {
     dispatch(filterContact(event.target.value));
   };
@@ -26,5 +26,3 @@ const FilterContacts = () => {
   );
 };
 export default FilterContacts;
-
-
