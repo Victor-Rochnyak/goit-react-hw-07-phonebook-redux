@@ -7,8 +7,6 @@ import { getFilter } from 'redux/selectors';
 import { List } from './ContactsList.styled';
 // import { selectFilterContacts } from 'redux/selectors';
 
-
-
 const ContactsList = () => {
   const contacts = useSelector(getContacts);
   const filter = useSelector(getFilter);
@@ -25,7 +23,7 @@ const ContactsList = () => {
   return (
     <List>
       {getFindContact.map(contact => (
-        <ContactsItem key={contact.id} {...contact} />
+        <ContactsItem contact={contact} key={contact.id} />
       ))}
     </List>
   );
